@@ -99,11 +99,33 @@ alternate_sum_4_using_c_alternative:
 ; uint32_t alternate_sum_8(uint32_t x1, uint32_t x2, uint32_t x3, uint32_t x4, uint32_t x5, uint32_t x6, uint32_t x7, uint32_t x8);
 ; registros y pila: x1[?], x2[?], x3[?], x4[?], x5[?], x6[?], x7[?], x8[?]
 alternate_sum_8:
-	;prologo
+  push RBP ;pila alineada
+  mov RBP, RSP ;strack frame armado
 
-	; COMPLETAR
+  push R9
+  push R8
+  
+  call alternate_sum_4
+
+  pop RDI
+  pop RSI
+  mov RDX, [RBP+16]
+  mov RCX, [RBP+24]
+
+  push RAX
+  sub RSP, 8
+
+  call alternate_sum_4
+
+  add RSP, 8
+  pop RDI
+  mov RSI, RAX
+
+  call sumar_c
+
 
 	;epilogo
+  pop RBP
 	ret
 
 
@@ -111,6 +133,16 @@ alternate_sum_8:
 ;void product_2_f(uint32_t * destination, uint32_t x1, float f1);
 ;registros: destination[?], x1[?], f1[?]
 product_2_f:
+	push RBP
+	mov RBP, RSP
+
+  cvtsi2sd XMM1, ESI
+  cvtss2sd XMM0, XMM0
+  mulsd XMM0, XMM1 
+  cvttsd2si ESI, XMM0
+  mov [RDI], ESI
+
+  pop RBP
 	ret
 
 
@@ -123,8 +155,8 @@ product_2_f:
 ;	, x9[?], f9[?]
 product_9_f:
 	;prologo
-	push rbp
-	mov rbp, rsp
+	push RBP
+	mov RBP, RSP
 
 	;convertimos los flotantes de cada registro xmm en doubles
 	; COMPLETAR
@@ -136,6 +168,6 @@ product_9_f:
 	; COMPLETAR
 
 	; epilogo
-	pop rbp
+	pop RBP
 	ret
 

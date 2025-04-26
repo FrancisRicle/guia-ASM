@@ -1,3 +1,4 @@
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -9,8 +10,8 @@
 
 int main() {
 	/* Acá pueden realizar sus propias pruebas */
-	assert(alternate_sum_4_using_c(8, 2, 5, 1) == 6);
-
-	assert(alternate_sum_4_using_c_alternative(8, 2, 5, 1) == 6);
+  uint32_t res;
+  product_2_f(&res, 3, 0.3333333333);
+  assert(res == 1);
 	return 0;
 }
